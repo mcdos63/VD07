@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(2568), nullable=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
 # Загрузка пользователя для Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 # Формы
 class LoginForm(FlaskForm):
@@ -87,7 +87,8 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
-            login_user(user)
+            rm = True if request.form.get('remainme') else False
+            login_user(user, remember=rm)
             flash(f'Успешная авторизация! Рады вас видеть, {user.username}!', 'success')
             return redirect(url_for('home'))
         else:
@@ -114,6 +115,10 @@ def profile():
         flash('Профиль успешно обновлен!', 'success')
         return redirect(url_for('profile'))
     return render_template('profile.html', form=form)
+
+@app.errorhandler(404)
+def pageNotFount(error):
+    return render_template('page404.html', title="Страница не найдена")
 
 # Создание базы данных
 with app.app_context():

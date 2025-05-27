@@ -3,8 +3,8 @@
 <h2>Домашняя страница</h2>
 {% if current_user.is_authenticated %}
     <p>Привет, {{ current_user.username }}!</p>
-    <a href="{{ url_for('profile') }}">Edit Profile</a><br>
-    <a href="{{ url_for('logout') }}">Logout</a>
+    <a href="{{ url_for('profile') }}">Редактировать профиль</a><br>
+    <a href="{{ url_for('logout') }}">Выход из системы</a>
 {% else %}
     <p>Пожалуйста, <a href="{{ url_for('login') }}">авторизуйтесь</a> или <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.</p>
 {% endif %}
