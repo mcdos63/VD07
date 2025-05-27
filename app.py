@@ -94,7 +94,7 @@ def login():
             rm = True if request.form.get('remainme') else False
             login_user(user, remember=rm)
             flash(f'Успешная авторизация! Рады вас видеть, {user.username}!', 'success')
-            return redirect(url_for('home'))
+            return redirect(request.args.get("next") or url_for('home'))
         else:
             flash('Неправильное имя пользователя или пароль.', 'danger')
     return render_template('login.html', form=form)
