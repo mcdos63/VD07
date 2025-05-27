@@ -63,17 +63,22 @@ def home():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    if form.validate_on_submit():
-        existing_user = User.query.filter_by(email=form.email.data).first()
-        if existing_user:
-            flash('Email already registered.', 'danger')
-            return redirect(url_for('register'))
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Registration successful! Please log in.', 'success')
-        return redirect(url_for('login'))
+    if request.method == "POST" and form.validate_on_submit():
+        try:
+            existing_user = User.query.filter_by(email=form.email.data).first()
+            if existing_user:
+                flash('Такой Email уже использован.', 'danger')
+                return redirect(url_for('register'))
+            user = User(username=form.username.data, email=form.email.data)
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.flush()
+            db.session.commit()
+            flash('Пользователь зарегистрирован! Вы можете войти.', 'success')
+            return redirect(url_for('login'))
+        except:
+            db.session.rollback()
+            flash('Ошибка при регистрации пользователя.', 'danger')
     return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -83,17 +88,17 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            flash('Login successful!', 'success')
+            flash(f'Успешная авторизация! Рады вас видеть, {user.username}!', 'success')
             return redirect(url_for('home'))
         else:
-            flash('Invalid email or password.', 'danger')
+            flash('Неправильное имя пользователя или пароль.', 'danger')
     return render_template('login.html', form=form)
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.', 'info')
+    flash('Вы успешно вышли из системы.', 'info')
     return redirect(url_for('home'))
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -106,7 +111,7 @@ def profile():
         if form.password.data:
             current_user.set_password(form.password.data)
         db.session.commit()
-        flash('Profile updated successfully!', 'success')
+        flash('Профиль успешно обновлен!', 'success')
         return redirect(url_for('profile'))
     return render_template('profile.html', form=form)
 

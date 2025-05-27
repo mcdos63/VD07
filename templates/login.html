@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Login</h2>
+<h2>Введите пароль</h2>
 <form method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group">
@@ -15,5 +15,5 @@
         {{ form.submit(class="btn") }}
     </div>
 </form>
-<p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
+<p>Если Вы не зарегистрированы, <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.</p>
 {% endblock %}
