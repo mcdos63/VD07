@@ -141,7 +141,7 @@ def home():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    if request.method == "POST" and form.validate_on_submit():
+    if form.validate_on_submit():
         try:
             existing_user = User.query.filter_by(email=form.email.data).first()
             if existing_user:
@@ -191,9 +191,12 @@ def profile():
         current_user.email = form.email.data
         if form.password.data:
             current_user.set_password(form.password.data)
+        db.session.flush()
         db.session.commit()
         flash('Профиль успешно обновлен!', 'success')
         return redirect(url_for('profile'))
+    elif request.method == 'POST':
+        flash('Неправильное имя пользователя или пароль.', 'danger')
     return render_template('profile.html', form=form)
 
 @app.errorhandler(404)
