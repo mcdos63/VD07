@@ -7,7 +7,7 @@
     <a href="/" class="btn active">Домашняя страница</a>
     <a href="/about" class="btn">Путеводитель</a>
     {% if current_user.is_authenticated %}
-    <a href="{{ url_for('profile') }}" class="btn">Редактировать профиль</a><br>
+    <a href="{{ url_for('profile') }}" class="btn">Редактировать профиль</a>
     <a href="{{ url_for('logout') }}" class="btn">Выход из системы</a>
     {% endif %}
 </div>

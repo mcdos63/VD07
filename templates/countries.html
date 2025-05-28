@@ -18,7 +18,7 @@
         {% for country in countries %}
             <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                 <!--            карточка-->
-                <div class="card mb-3" style="max-width: 24rem;">
+                <div class="card mb-3 " style="max-width: 24rem;">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="{{ country.map }}" class="img-fluid rounded-start" alt="{{ country.name }}">
@@ -27,8 +27,7 @@
                             <div class="card-body">
                                 <h5 class="card-title text-center">{{ country.name }}</h5>
                                 <p class="card-text">{{ country.info }}</p>
-                                <p class="card-text"><small
-                                        class="text-body-secondary">(Столица: {{ country.capital }})</small></p>
+                                <p class="card-text"><small class="text-body-secondary">(Столица: {{ country.capital }})</small></p>
                             </div>
                         </div>
                     </div>
