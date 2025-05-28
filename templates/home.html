@@ -1,11 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Домашняя страница</h2>
-{% if current_user.is_authenticated %}
-    <p>Привет, {{ current_user.username }}!</p>
-    <a href="{{ url_for('profile') }}">Редактировать профиль</a><br>
-    <a href="{{ url_for('logout') }}">Выход из системы</a>
-{% else %}
-    <p>Пожалуйста, <a href="{{ url_for('login') }}">авторизуйтесь</a> или <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.</p>
-{% endif %}
+
+
+<!--Шапка-->
+<div class="btn-group btn-outline-primary" role="group">
+    <a href="/" class="btn active">Домашняя страница</a>
+    <a href="/about" class="btn">Путеводитель</a>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('profile') }}" class="btn">Редактировать профиль</a><br>
+    <a href="{{ url_for('logout') }}" class="btn">Выход из системы</a>
+    {% endif %}
+</div>
+
+
+
+<br>
+<h1 class="text-center">Домашняя страница</h1>
+<br>
+    {% if current_user.is_authenticated %}
+    <p class="text-center">Привет, {{ current_user.username }}!</p>
+    {% else %}
+    <p>Пожалуйста, <a href="{{ url_for('login') }}">авторизуйтесь</a> или <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.
+    </p>
+    {% endif %}
+
 {% endblock %}

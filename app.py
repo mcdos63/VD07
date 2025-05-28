@@ -12,6 +12,82 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Справочник стран
+countries = [
+    {
+        "name": "Россия",
+        "info": "Самая большая страна в мире по площади, расположена в Восточной Европе и Северной Азии.",
+        "capital": "Москва",
+        "map": "http://ostranah.ru/media/coats_of_arms/russia_coat_of_arms.jpg"
+    },
+    {
+        "name": "США",
+        "info": "Федеративная республика, состоящая из 50 штатов, третья по численности населения страна.",
+        "capital": "Вашингтон",
+        "map": "http://ostranah.ru/media/coats_of_arms/united_states_coat_of_arms.jpg"
+    },
+    {
+        "name": "Китай",
+        "info": "Самая населённая страна мира, известна своей древней культурой и быстрым экономическим ростом.",
+        "capital": "Пекин",
+        "map": "http://ostranah.ru/media/coats_of_arms/china_coat_of_arms.jpg"
+    },
+    {
+        "name": "Индия",
+        "info": "Вторая по численности населения страна, известна своим разнообразием культур и традиций.",
+        "capital": "Нью-Дели",
+        "map": "http://ostranah.ru/media/coats_of_arms/india_coat_of_arms.jpg"
+    },
+    {
+        "name": "Бразилия",
+        "info": "Крупнейшая страна Латинской Америки, знаменита своими карнавалами и природными богатствами.",
+        "capital": "Бразилиа",
+        "map": "http://ostranah.ru/media/coats_of_arms/brazil_coat_of_arms.jpg"
+    },
+    {
+        "name": "Австралия",
+        "info": "Единственная страна-континент, известна уникальной флорой и фауной.",
+        "capital": "Канберра",
+        "map": "http://ostranah.ru/media/coats_of_arms/australia_coat_of_arms.jpg"
+    },
+    {
+        "name": "Германия",
+        "info": "Одна из крупнейших экономик Европы, известна своей промышленностью и культурой.",
+        "capital": "Берлин",
+        "map": "http://ostranah.ru/media/coats_of_arms/germany_coat_of_arms.jpg"
+    },
+    {
+        "name": "Франция",
+        "info": "Страна моды и искусства, известна своей кухней и архитектурой.",
+        "capital": "Париж",
+        "map": "http://ostranah.ru/media/coats_of_arms/france_coat_of_arms.jpg"
+    },
+    {
+        "name": "Япония",
+        "info": "Страна высоких технологий, известна своей культурой самураев и аниме.",
+        "capital": "Токио",
+        "map": "http://ostranah.ru/media/coats_of_arms/japan_coat_of_arms.jpg"
+    },
+    {
+        "name": "Канада",
+        "info": "Вторая по площади страна в мире, известна своими живописными пейзажами.",
+        "capital": "Оттава",
+        "map": "http://ostranah.ru/media/coats_of_arms/canada_coat_of_arms.jpg"
+    },
+    {
+        "name": "Италия",
+        "info": "Страна с богатой историей, известна своими произведениями искусства и пиццей.",
+        "capital": "Рим",
+        "map": "http://ostranah.ru/media/coats_of_arms/italy_coat_of_arms.jpg"
+    },
+    {
+        "name": "Испания",
+        "info": "Страна фестивалей и фламенко, известна своими пляжами и архитектурой.",
+        "capital": "Мадрид",
+        "map": "http://ostranah.ru/media/coats_of_arms/spain_coat_of_arms.jpg"
+    }
+]
+
 # Инициализация расширений
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -123,6 +199,11 @@ def profile():
 @app.errorhandler(404)
 def pageNotFount(error):
     return render_template('page404.html', title="Страница не найдена")
+
+@app.route("/about")
+@login_required
+def about():
+    return render_template("countries.html", countries=countries)
 
 # Создание базы данных
 with app.app_context():
