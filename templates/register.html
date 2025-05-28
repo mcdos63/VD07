@@ -13,11 +13,11 @@
     </div>
     <div class="form-group">
         {{ form.password.label }}<br>
-        {{ form.password(size=32) }}
+        {{ form.password(size=32, placeholder="Пароль") }}
     </div>
     <div class="form-group">
         {{ form.confirm_password.label }}<br>
-        {{ form.confirm_password(size=32) }}
+        {{ form.confirm_password(size=32, placeholder="Повторите пароль") }}
     </div>
     <div class="form-group">
         {{ form.submit(class="btn") }}
